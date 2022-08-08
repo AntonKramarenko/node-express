@@ -16,19 +16,20 @@ const ordersRoutes = require('./routes/orders')
 const authRoutes = require('./routes/auth')
 const varMiddleware = require('./middlewre/variables')
 const userMiddleware = require('./middlewre/user')
+const keys = require('./keys')
 
-const MONGODB_URI = `mongodb+srv://anton:0lZx5drBFQOsiH12@cluster0.ckqqkba.mongodb.net/shop`
 
 const app = express()
 
 const store = new MongoStore({
     collection: 'sessions',
-    uri: MONGODB_URI
+    uri: keys.MONGODB_URI
 })
 
 app.engine('hbs', engine({
     defaultLayout: 'main',
     extname: 'hbs',
+    helpers: require('./utils/hbs-helpers'),
     'handlebars': allowInsecurePrototypeAccess(Handlebars)
 }))
 app.set('view engine', 'hbs')
@@ -37,7 +38,7 @@ app.set('views', 'views')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 app.use(session({
-    secret: 'some secret value',
+    secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store
@@ -58,7 +59,7 @@ const PORT = process.env.PORT || 3000
 
 async function start() {
     try {
-        await mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
+        await mongoose.connect(keys.MONGODB_URI, { useNewUrlParser: true })
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT} `);
         })
