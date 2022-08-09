@@ -1,19 +1,22 @@
-<h1>Add</h1>
-<form action="/add" method="POST"> 
+<h1>Add new course</h1>
+{{#if error}}
+    <div class="alert">{{error}}</div>
+{{/if}}
+<form action="/add" method="POST" novalidate> 
     <div class="input-field">
-        <input  id="title" name="title" type="text" class="validate" required>
+        <input  id="title" name="title" type="text" class="validate" value="{{data.title}}" required >
         <label for="title">Course Name</label>
         <span class="helper-text" data-error="Add name" >Add name</span>
     </div>
 
     <div class="input-field">
-        <input  id="price" name="price" type="number" class="validate" required min="1">
+        <input  id="price" name="price" type="number" class="validate" value="{{date.price}}" required min="1">
         <label for="price">Course price</label>
         <span class="helper-text" data-error="Add price" >Add price</span>
     </div>
 
      <div class="input-field">
-        <input  id="img" name="img" type="text" class="validate" required>
+        <input  id="img" name="img" type="text" class="validate" value="{{date.img}}" required>
         <label for="img">Img url</label>
         <span class="helper-text" data-error="Add img url" >Add img url</span>
     </div>
